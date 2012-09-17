@@ -10,9 +10,8 @@ Additional changes in the repository https://github.com/twaldecker/grml-etc-core
 
 Steps to install the grml-etc-core in Fedora:
 
-    git clone https://github.com/twaldecker/grml-etc-core.git
-    cd grml-etc-core
-    https://github.com/twaldecker/grml-etc-core.git
+    git clone https://github.com/twaldecker/grml-etc-core-fedora.git
+    cd grml-etc-core-fedora
     sudo make install
 
 ## Original README continues here
