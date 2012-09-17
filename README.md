@@ -1,6 +1,21 @@
 grml-etc-core
 =============
 
+## Changes in this repository
+
+Additional changes in the repository https://github.com/twaldecker/grml-etc-core:
+
+ * Merged the standard fedora vimrc configuration file
+ * Added a Makefile
+
+Steps to install the grml-etc-core in Fedora:
+
+    git clone https://github.com/twaldecker/grml-etc-core.git
+    cd grml-etc-core
+    sudo make install
+
+## Original README continues here
+
 This repository contains the core /etc files for the Grml system.
 
 While generally these files are distributed as a Debian package, named

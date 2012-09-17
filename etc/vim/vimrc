@@ -14,10 +14,6 @@
 " recommended to make changes after sourcing debian.vim since it alters the
 " value of the 'compatible' option.
 
-" This line should not be removed as it ensures that various options are
-" properly set to work with the Vim-related packages available in Debian.
-  runtime! debian.vim
-
 " Uncomment the next line to make Vim more Vi-compatible
 " NOTE: debian.vim sets 'nocompatible', but only if debian.vim is available,
 " so let's make sure we run in nocompatible mode:
@@ -74,7 +70,36 @@
 " plugins.
   if has("autocmd")
     filetype indent on
+    augroup fedora
+    autocmd!
+    " In text files, always limit the width of text to 78 characters
+    " autocmd BufRead *.txt set tw=78
+    " When editing a file, always jump to the last cursor position
+    autocmd BufReadPost *
+      \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+      \   exe "normal! g'\"" |
+      \ endif
+    " don't write swapfile on most commonly used directories for NFS mounts or USB sticks
+    autocmd BufNewFile,BufReadPre /media/*,/mnt/* set directory=~/tmp,/var/tmp,/tmp
+    " start with spec file template
+    autocmd BufNewFile *.spec 0r /usr/share/vim/vimfiles/template.spec
+    augroup END
   endif
+
+if has("cscope") && filereadable("/usr/bin/cscope")
+   set csprg=/usr/bin/cscope
+   set csto=0
+   set cst
+   set nocsverb
+   " add any database in current directory
+   if filereadable("cscope.out")
+      cs add $PWD/cscope.out
+   " else add database pointed to by environment
+   elseif $CSCOPE_DB != ""
+      cs add $CSCOPE_DB
+   endif
+   set csverb
+endif
 
 " The following are commented out as they cause vim to behave a lot
 " differently from regular Vi. They are highly recommended though.
@@ -272,4 +297,8 @@ endif
   if filereadable(expand("$HOME/.vimrc.local"))
     source $HOME/.vimrc.local
   endif
+
+" Don't wake up system with blinking cursor:
+" http://www.linuxpowertop.org/known.php
+let &guicursor = &guicursor . ",a:blinkon0"
 "# END OF FILE #################################################################
